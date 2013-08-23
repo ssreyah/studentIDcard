@@ -1,15 +1,12 @@
 <?php
-	include("barcodes.php");
 	class Card{
 		function __construct($firstname="Renoire", $lastname="McStudentsen",
-								$sid = "123", $bloodtype="Unknown",$dob="12-Jan-1999",
+								$sid = "123",$dob="12-Jan-1999",
 								$econtact1="017-922-088",$econtact2="092-094-843"){
 
 			$this->firstname = trim($firstname);
 			$this->lastname = trim($lastname);
 			$this->sid = $sid;
-			if($bloodtype != null || $bloodtype !="")
-				$this->bloodtype = $bloodtype;
 			$this->dob = $dob;
 			$this->econtact1 = $econtact1;
 			$this->econtact2 = $econtact2;
@@ -37,7 +34,6 @@
 					<tr><td><b>Student ID: $this->sid</b><br>
 							<i style=\"font-size:x-small\">expires: 10-10-10</i></td></tr>
 					 <tr><td>DOB:</td> <td>$this->dob</td></tr>
-					 <tr><td>Blood Type:</td><td>$this->bloodtype</td></tr>
 					 <tr><td>Emergency Contacts/ទំនាក់ទំនងលេខ:</td><td>$this->econtact1</td></tr>
 					 <tr><td rowspan=\"2\"></td><td>$this->econtact2</td></tr>
 					 <tr></tr>
@@ -73,7 +69,7 @@
 						</table>
 						</div>
 						<div class = \"barcode\">
-						<img src = \"bcgen/html/image.php?code=code128&o=1&t=40&r=2&text=$this->sid&f=0&a1=A&a2=\">
+						<img src = \"barcode.php?text=$this->sid&size=40\" alt=\"blah\">
 						</div>
 
 
