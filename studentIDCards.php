@@ -97,9 +97,8 @@ while(($data = fgetcsv($fh))!=false){
 	$sname = $data[3];
 	$e1 = $data[4];
 	$e2 = $data[5];
-	$bloodtype= "unknown";
 
-	$cardarray[$c] = new Card($fname, $sname, $sid, $bloodtype, $dob, $e1, $e2);
+	$cardarray[$c] = new Card($fname, $sname, $sid, $dob, $e1, $e2);
 	$c++;
 }
 fclose($fh);
