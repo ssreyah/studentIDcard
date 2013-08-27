@@ -84,24 +84,53 @@ tr,td{
 </head>
 <body>
 <?php
+include "connectdb.php";
 include "card.php";
-$fh = fopen("cards_full.csv",'r');
-$c = 0;
+$dbh = connectDB();
+$query = $dbh->prepare("
+SELECT 
+enrolled_students.sid,
+enrolled_students.dob,
+enrolled_students.fname,
+enrolled_students.sname,
+student_addresses.e1,
+student_addresses.e2,
+Grade.title
 
+FROM    
+        
+(SELECT students.first_name as fname, students.last_name as sname, students.student_id as sid, students.birthdate as dob, student_enrollment.grade_id as grade_id from students, student_enrollment
+WHERE   
+student_enrollment.student_id = students.student_id AND student_enrollment.syear = 2013 AND student_enrollment.school_id=2 and end_date IS NULL)
+as enrolled_students,
+
+(SELECT students_join_address.student_id as sid, address.email as Email, address.mobile_phone as e1, address.sec_mobile_phone as e2 FROM address, students_join_address where address.address_id = students_join_address.address_id) as student_addresses,
+
+(SELECT school_gradelevels.title as title, school_gradelevels.id as grade_id from school_gradelevels) as Grade
+
+WHERE
+student_addresses.sid = enrolled_students.sid AND
+enrolled_students.grade_id = Grade.grade_id
+
+ORDER BY enrolled_students.sname ASC
+");
+$query->execute();
+$students = $query->fetchAll(PDO::FETCH_ASSOC);
 //load data set
-while(($data = fgetcsv($fh))!=false){
+$c=0;
+$cardarray = array();
+foreach($students as $student){
 
-	$sid = $data[0];
-	$dob = $data[1];
-	$fname = $data[2];
-	$sname = $data[3];
-	$e1 = $data[4];
-	$e2 = $data[5];
+	$sid = $student['sid'];
+	$dob = $student['dob'];
+	$fname = $student['fname'];
+	$sname = $student['sname'];
+	$e1 = $student['e1'];
+	$e2 = $student['e2'];
 
 	$cardarray[$c] = new Card($fname, $sname, $sid, $dob, $e1, $e2);
 	$c++;
 }
-fclose($fh);
 
 foreach($cardarray as $testcard){
 
