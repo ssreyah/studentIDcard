@@ -32,7 +32,7 @@
         } 
         $code_string .= $code_array[$code_keys[($chksum - (intval($chksum / 103) * 103))]]; 
 
-        $code_string = "211214" . $code_string . "2331112"; 
+        $code_string = "211214" . $code_string . "2331111"; //Should be 2331112.. but the last bar draws too thick. Maybe a bug in imagemagick?
     } 
     elseif(strtolower($code_type) == "code39") 
     { 
