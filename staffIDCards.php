@@ -16,7 +16,6 @@
 .card{
     width: 100%;
     height: 81mm;
-    padding-top: 5mm;
     position: relative;
     font-family: "Futura Medium" sans-serif;
     text-align: center;
@@ -31,12 +30,12 @@
 }
 .photo{
     text-align: center;
-    height: 4.5cm;
+    height: 3.65cm;
     
 }
 .logo{
     position: relative;
-    padding: 1mm;
+    padding-bottom: 5px;
 }
 
 .name{
@@ -54,6 +53,9 @@ font-size:small;
     margin: auto;
     font-size:x-small;
 }
+.footer{
+}
+
 }
 @media print{
 #container{
@@ -67,7 +69,6 @@ font-size:small;
 .card{
     width: 100%;
     height: 81mm;
-    padding-top: 5mm;
     position: relative;
     font-family: "Futura Medium" sans-serif;
     text-align: center;
@@ -81,12 +82,13 @@ font-size:small;
 
 .photo{
     text-align: center;
-    height: 4.5cm;
+    height: 3.60cm;
+    padding-bottom: 1mm;
     
 }
 .logo{
     position: relative;
-    padding: 1mm;
+    padding-bottom: 2mm;
 }
 
 .name{
@@ -94,6 +96,7 @@ font-size:small;
 }
 .title{
 font-size:small;
+    padding-bottom: 1mm;
     
 }
 .expires{
@@ -104,6 +107,11 @@ font-size:small;
     margin: auto;
     background-color: white;
     font-size:x-small;
+    padding-bottom: 2mm;
+}
+.footer{
+    background-color: #00aad4;
+    padding-bottom: 1.2mm;
 }
 }
 -->
@@ -119,7 +127,7 @@ $syear = 2014;
 $school_id = 1;
 $dbh = connectDB();
 $query = $dbh->prepare("
-SELECT * FROM staff where current_school_id = $school_id AND profile='teacher' AND is_disable IS NULL and last_name='Bawden'
+SELECT * FROM staff where current_school_id = $school_id and is_disable IS NULL and last_name = 'Moon'
 ");
 $query->execute();
 $teachers = $query->fetchAll(PDO::FETCH_ASSOC) or die('eek!');
