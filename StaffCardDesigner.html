@@ -1,0 +1,206 @@
+<html>
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+
+<style style="text/css">
+<!--
+@page { size:54mm 86mm;}
+@media screen{
+#controls{
+    position: relative;
+    left: 100mm;
+}
+#container{
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin:0;
+    padding:0;
+    width: 54mm;
+}
+.card{
+    width: 100%;
+    height: 81mm;
+    position: relative;
+    font-family: "Futura Medium" sans-serif;
+    text-align: center;
+    page-break-after: always;
+    background-image:url('img/watermark.png');
+    background-size: 200%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border:solid 3px lightgrey;
+    margin: 5px;
+
+}
+.photo{
+    text-align: center;
+    height: 3.5cm;
+    width: 2.4cm;
+    position: relative;
+    left: 25%;
+    background-image:url('img/nophoto.jpg');
+    background-size: cover;
+    background-position: center center;
+    border: 3px solid lightgrey;
+   
+    
+}
+.logo{
+    position: relative;
+    padding-bottom: 5px;
+}
+
+.name{
+    font-weight: bold;
+}
+.title{
+font-size:small;
+    
+}
+.expires{
+    font-size: small;
+}
+.barcode{
+    width: 90%;
+    margin: auto;
+    font-size:x-small;
+}
+.footer{
+}
+
+}
+@media print{
+#controls{
+    display:none;
+}
+#container{
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin:0;
+    padding:0;
+    width: 54mm;
+}
+.card{
+    width: 100%;
+    height: 81mm;
+    position: relative;
+    font-family: "Futura Medium" sans-serif;
+    text-align: center;
+    page-break-after: always;
+    background-image:url('img/watermark.png');
+    background-size: 200%;
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+
+.photo{
+    text-align: center;
+    height: 3.5cm;
+    width: 2.4cm;
+    position: relative;
+    left: 25%;
+    background-image:url('img/nophoto.jpg');
+    background-size: cover;
+    background-position: center center;
+    border: 3px solid lightgrey;
+ 
+    
+}
+.logo{
+    position: relative;
+    padding-bottom: 2mm;
+}
+
+.name{
+    font-weight: bold;
+}
+.title{
+font-size:small;
+    padding-bottom: 1mm;
+    
+}
+.expires{
+    font-size: small;
+}
+.barcode{
+    width: 90%;
+    margin: auto;
+    background-color: white;
+    font-size:x-small;
+    padding-bottom: 2mm;
+}
+.footer{
+    background-color: #00aad4;
+    padding-bottom: 1.2mm;
+}
+}
+-->
+
+</style>
+</head>
+<body>
+<div id="container">
+        <div class="card">
+            <div class="logo"><img src = "img\logoslogo.png" id = "logoimg" style="width: 100%"></div>
+            <div class="photo"></div>
+            <div class="name">Input a Name</div>
+            <div class="title">Staff</div>
+            <div class="barcode"><img src = "http://services.asianhope.org/idcards/barcode.php?text=123&size=30" id = "barcodeimg" alt="blah"><br/>123</div>
+            <div class="footer"><img src = "img\logosfooter.png" id = "footerimg" style="width:100%"></div>
+        </div>
+
+</div>
+<div id="controls">
+    <input id="uploadFile" size=40 name="image" type="file" class="form-control"><br/>
+    <label for "inputname">Name</label>
+    <input type="text" id ="inputname" placeholder="Input a Name"/>
+
+    <label for "inputname">Title</label>
+    <input type="text" id ="inputtitle" placeholder="Staff"/>
+    <br/>
+
+    <label for "barcodenumber">
+    <input type ="text" id = "barcodenumber" placeholder="123"/>
+</div>
+
+
+</body>
+<script type='text/javascript'>
+    var bcurl = "http://services.asianhope.org/idcards/barcode.php";
+    $(function() {
+    $("#uploadFile").on("change", function()
+        {
+                var files = !!this.files ? this.files : [];
+                if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
+                       
+                if (/^image/.test( files[0].type)){ // only image file
+                    var reader = new FileReader(); // instance of the FileReader
+                    reader.readAsDataURL(files[0]); // read the local file
+                                                              
+                    reader.onloadend = function(){ // set image data as background of div
+                        $(".photo").css("background-image", "url("+this.result+")");
+                    }
+                }
+         });
+    $('#inputname').on("change", function(){
+        $('.name').html($('#inputname').val());
+    });
+    $('#inputtitle').on("change", function(){
+        $('.title').html($('#inputtitle').val());
+    });
+    $('#barcodenumber').on("change", function(){
+        //$('#barcodeimg').attr('src',bcurl+'?'+$('#barcodenumber').val()+'&size=30');
+        $('.barcode').html('<br/>'+$('#barcodenumber').val());
+        $('.barcode').prepend('<img src="'+bcurl+'?text='+$('#barcodenumber').val()+'&size=30"/>');
+    });
+});
+
+</script>
+
+</html>
+
