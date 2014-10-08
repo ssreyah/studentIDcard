@@ -42,7 +42,7 @@
     font-family: "Futura Medium" sans-serif;
     text-align: center;
     page-break-after: always;
-    background-image:url('img/logoslibrarytree.png');
+    background-image:url('img/logostree.png');
     background-size: 50%;
     background-repeat: no-repeat;
     background-position: 0 2mm;
@@ -54,7 +54,7 @@
     height: 3.4cm;
     width: 2.4cm;
     position: relative;
-    left: 56mm;
+    left: 55mm;
     background-image:url('img/nophoto.jpg');
     background-size: cover;
     background-position: center center;
@@ -121,7 +121,7 @@
     font-family: "Futura Medium" sans-serif;
     text-align: center;
     page-break-after: always;
-    background-image:url('img/logoslibrarytree.png');
+    background-image:url('img/logostree.png');
     background-size: 50%;
     background-repeat: no-repeat;
     background-position: 0 2mm;
@@ -133,8 +133,8 @@
     height: 3.4cm;
     width: 2.4cm;
     position: relative;
-    left: 56mm;
-    background-image:url('img/229.jpg');
+    left: 55mm;
+    background-image:url('img/nophoto.jpg');
     background-size: cover;
     background-position: center center;
     border: 1px solid white;
@@ -177,7 +177,7 @@
         <div class="logo_back"></div>
         <div class="photo"></div>
         <div class="name">Input a Name</div>
-        <div class="footer"><img src = "img\logoslibraryfooter.png" style="width: 100%"/> </div>
+        <div class="footer"><img class="footerimg" src = "img\logoslibraryfooter.png" style="width: 100%"/> </div>
     </div>
 
 </div>
@@ -186,6 +186,11 @@
     <input id="uploadFile" size=40 name="image" type="file" class="form-control"><br/>
     <label for "inputname">Name</label>
     <input type="text" id ="inputname"/>
+    <br/>
+    <label>Library</label>
+    <input type="radio" id ="cardtype" name="cardtype" value="library"/>
+    <label>Pickup</label>
+    <input type="radio" id ="cardtype" name="cardtype" value="pickup"/>
 </div>
 </body>
 <script type='text/javascript'>
@@ -207,6 +212,18 @@
     $('#inputname').on("change", function(){
         $('.name').html($('#inputname').val());
     });
+ 
+    $('input:radio[name=cardtype]').click(function(){
+           if($(this).val() == 'pickup'){
+               $('.footerimg').attr('src','img\\logospickupfooter.png');
+               $('.card_back').css('background-color','#a02c2c');
+           }
+           else{
+               $('.footerimg').attr('src','img\\logoslibraryfooter.png');
+               $('.card_back').css('background-color','#fbb033');
+           }
+        });
+
 });
 </script>
 </html>
