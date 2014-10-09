@@ -4,6 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="js/photobooth_min.js"></script>
 
 <style style="text/css">
 <!--
@@ -183,18 +184,33 @@
 </div>
 
 <div id="controls">
+    <div id = "webcam" style="width:400px; height:288px;"></div>
     <input id="uploadFile" size=40 name="image" type="file" class="form-control"><br/>
     <label for "inputname">Name</label>
     <input type="text" id ="inputname"/>
     <br/>
     <label>Library</label>
-    <input type="radio" id ="cardtype" name="cardtype" value="library"/>
+    <input type="radio" id ="cardtype" name="cardtype" value="library" checked="checked"/>
     <label>Pickup</label>
     <input type="radio" id ="cardtype" name="cardtype" value="pickup"/>
 </div>
 </body>
 <script type='text/javascript'>
+
+    //allows downloading of webcam picture
+    function downloadURI(uri, name) {
+        var link = document.createElement("a");
+        link.download = name;
+        link.href = uri;
+        link.click();
+    }
     $(function() {
+
+    $('#webcam').photobooth().on("image",function(event, dataUrl){
+        $('.photo').css('background-image','url('+dataUrl+')');
+        var filename = $('#inputname').val()+'.png';
+        downloadURI(dataUrl, filename);
+    });
     $("#uploadFile").on("change", function()
         {
                 var files = !!this.files ? this.files : [];
