@@ -6,196 +6,75 @@
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/photobooth_min.js"></script>
 
-<style style="text/css">
-<!--
-@page { size:86mm 54mm;}
-@media screen{
-#controls{
-    position: relative;
-    left: 100mm;
-    width: 40%;
-}
-#container{
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin:0;
-    padding:0;
-    width: 81mm;
-}
-.card_front{
-    width: 100%;
-    padding-top: 5mm;
-    position: relative;
-    font-family: "Futura Medium" sans-serif;
-    text-align: center;
-    page-break-after: always;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
+<link rel="stylesheet" type="text/css" href="css/librarycard.css">
 
-}
-.card_back{
-    width: 100%;
-    height: 48.5mm;
-    padding-top: 2mm;
-    position: relative;
-    font-family: "Futura Medium" sans-serif;
-    text-align: center;
-    page-break-after: always;
-    background-image:url('img/logostree.png');
-    background-size: 50%;
-    background-repeat: no-repeat;
-    background-position: 0 2mm;
-    background-color: #fbb033;
-
-}
-.photo{
-    text-align: right;
-    height: 3.4cm;
-    width: 2.4cm;
-    position: relative;
-    left: 55mm;
-    background-image:url('img/nophoto.jpg');
-    background-size: cover;
-    background-position: center center;
-    border: 1px solid white;
-    
-}
-.logo_front{
-    position: relative;
-}
-.logo_back{
-
-}
-
-.name{
-    font-weight: bold;
-    color: white;
-    text-align: right;
-    padding-right: 2mm;
-    padding-top: 2mm;
-}
-.title{
-    
-}
-.expires{
-    font-size: small;
-}
-.barcode{
-    width: 90%;
-    margin: auto;
-    padding: 2.6mm 0;
-    z-index:-1;
-    text-align: center;
-}
-}
-@media print{
-#controls{
-    display: none;
-}
-#container{
-    position: absolute;
-    left: 0;
-    top: 0;
-    margin:0;
-    padding:0;
-    width: 81mm;
-}
-.card_front{
-    width: 100%;
-    padding-top: 5mm;
-    position: relative;
-    font-family: "Futura Medium" sans-serif;
-    text-align: center;
-    page-break-after: always;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-position: center;
-
-}
-.card_back{
-    width: 100%;
-    height: 48.5mm;
-    padding-top: 2mm;
-    position: relative;
-    font-family: "Futura Medium" sans-serif;
-    text-align: center;
-    page-break-after: always;
-    background-image:url('img/logostree.png');
-    background-size: 50%;
-    background-repeat: no-repeat;
-    background-position: 0 2mm;
-    background-color: #fbb033;
-
-}
-.photo{
-    text-align: right;
-    height: 3.4cm;
-    width: 2.4cm;
-    position: relative;
-    left: 55mm;
-    background-image:url('img/nophoto.jpg');
-    background-size: cover;
-    background-position: center center;
-    border: 1px solid white;
-    
-}
-.logo_front{
-    position: relative;
-}
-.logo_back{
-
-}
-
-.name{
-    font-weight: bold;
-    color: white;
-    text-align: right;
-    padding-right: 2mm;
-    padding-top: 2mm;
-}
-.title{
-    
-}
-.expires{
-    font-size: small;
-}
-.barcode{
-    width: 90%;
-    margin: auto;
-    padding: 2.6mm 0;
-    z-index:-1;
-    text-align: center;
-}
-}
--->
-</style>
 </head>
 <body>
-<div id="container">
-    <div class="card_back">
-        <div class="logo_back"></div>
+<div id="container" style="display:block;">
+    <div class="card">
+        <div class="logo"><img src = "img\logoslogo.png" id = "logoimg" style="width: 100%"></div>
         <div class="photo"></div>
         <div class="name">Input a Name</div>
+        <div class="title">Staff</div>
+        <div class="barcode"><img src = "http://services.asianhope.org/idcards/barcode.php?text=123&size=30" id = "barcodeimg" alt="blah"></div>
+        <div class="barcodenumber">123</div>
+        <div class="cardbody">
+          <ul>
+            <li id="dob">DOB: 15-08-1981</li>
+            <li>Emergency Contact:</li>
+            <li id="econtact1">017-XXX-XXXX</li>
+            <li id="econtact2">024-XXX-XXXX</li>
+          </ul>
+        </div>
         <div class="footer"><img class="footerimg" src = "img\logoslibraryfooter.png" style="width: 100%"/> </div>
     </div>
 
 </div>
 
-<div id="controls">
+<div id="controls" style="position: absolute; left: 600px;">
     <div id = "webcam" style="width:400px; height:288px;"></div>
+
     <input id="uploadFile" size=40 name="image" type="file" class="form-control"><br/>
     <label for "inputname">Name</label>
-    <input type="text" id ="inputname"/>
+    <input type="text" id ="inputname" placeholder="Surname, First Name"/>
     <br/>
-    <label>Library</label>
-    <input type="radio" id ="cardtype" name="cardtype" value="library" checked="checked"/>
-    <label>Pickup</label>
-    <input type="radio" id ="cardtype" name="cardtype" value="pickup"/>
+    <label for "inputtitle">Title</label>
+    <input type="text" id ="inputtitle" placeholder="Staff"/>
+    <br/>
+
+    <label for "inputdob">DOB:</label>
+    <input type="text" id ="inputdob" placeholder="DD-MM-YYYY"/>
+    <br/>
+
+    <label for "inputecontact1">Emergency Contact 1</label>
+    <input type="text" id ="inputecontact1" placeholder="01X-XXX-XXX"/>
+    <br/>
+
+    <label for "inputecontact2">Emergency Contact 2</label>
+    <input type="text" id ="inputecontact2" placeholder="02X-XXX-XXX"/>
+    <br/>
+
+    <label for "barcodenumber">Barcode Number</label>
+    <input type ="text" id = "inputbarcodenumber" placeholder="123"/>
+<div id="buttons">
+
+<button id="library" class="btn btn-primary">LIS Library (Picture)</button>
+<button id="library_bc" class="btn btn-primary">LIS Library (Barcode)</button><br/>
+<button id="pickup" class="btn btn-primary">LIS Pick Up (Picture)</button>
+<button id="pickup_bc" class="btn btn-primary">LIS Pick Up (Barcode)</button><br/>
+<button id="staff" class="btn btn-primary">LIS Staff</button><br/>
+<button id="student" class="btn btn-primary">LIS Student</button>
 </div>
+</div>
+
+
+
+
 </body>
 <script type='text/javascript'>
+    var bcurl = "http://services.asianhope.org/idcards/barcode.php";
+    var bcnum_pre = "";
+    var bcnum_post= "";
 
     //allows downloading of webcam picture
     function downloadURI(uri, name) {
@@ -204,6 +83,7 @@
         link.href = uri;
         link.click();
     }
+
     $(function() {
 
     $('#webcam').photobooth().on("image",function(event, dataUrl){
@@ -215,32 +95,69 @@
         {
                 var files = !!this.files ? this.files : [];
                 if (!files.length || !window.FileReader) return; // no file selected, or no FileReader support
-                       
+
                 if (/^image/.test( files[0].type)){ // only image file
                     var reader = new FileReader(); // instance of the FileReader
                     reader.readAsDataURL(files[0]); // read the local file
-                                                              
+
                     reader.onloadend = function(){ // set image data as background of div
                         $(".photo").css("background-image", "url("+this.result+")");
                     }
                 }
-         });
+    });
+
+    $('#library').click(function (){
+      $('link').attr('href','css/librarycard.css');
+      $('.footerimg').attr('src','img\\logoslibraryfooter.png');
+    //  $('.card').css('background-color','#fbb033');
+    });
+
+    $('#pickup').click(function (){
+      $('link').attr('href','css/pickupcard.css');
+      $('.footerimg').attr('src','img\\logospickupfooter.png');
+      //$('.card').css('background-color','#a02c2c');
+    });
+
+    $('#staff').click(function (){
+      bcnum_pre = "";
+      bcnum_post= "";
+      $('link').attr('href','css/staffcard.css');
+      $('.footerimg').attr('src','img\\logosfooter.png');
+    });
+
+    $('#student').click(function (){
+      bcnum_pre = "Student ID: <strong>";
+      bcnum_post= "</strong>";
+      $('link').attr('href','css/studentcard.css');
+    });
+
+
     $('#inputname').on("change", function(){
         $('.name').html($('#inputname').val());
     });
- 
-    $('input:radio[name=cardtype]').click(function(){
-           if($(this).val() == 'pickup'){
-               $('.footerimg').attr('src','img\\logospickupfooter.png');
-               $('.card_back').css('background-color','#a02c2c');
-           }
-           else{
-               $('.footerimg').attr('src','img\\logoslibraryfooter.png');
-               $('.card_back').css('background-color','#fbb033');
-           }
-        });
+    $('#inputtitle').on("change", function(){
+        $('.title').html($('#inputtitle').val());
+    });
+    $('#inputecontact1').on("change", function(){
+        $('#econtact1').html($('#inputecontact1').val());
+    });
 
+    $('#inputecontact2').on("change", function(){
+        $('#econtact2').html($('#inputecontact2').val());
+    });
+
+    $('#inputdob').on("change", function(){
+        $('#dob').html('DOB: '+$('#inputdob').val());
+    });
+
+    $('#inputbarcodenumber').on("change", function(){
+        //$('#barcodeimg').attr('src',bcurl+'?'+$('#barcodenumber').val()+'&size=30');
+        $('.barcodenumber').html(bcnum_pre+$('#inputbarcodenumber').val()+bcnum_post);
+        $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size=30"/>');
+
+
+    });
 });
+
 </script>
 </html>
-
