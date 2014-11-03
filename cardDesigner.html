@@ -12,7 +12,7 @@
 <body>
 <div id="container" style="display:block;">
     <div class="card">
-        <div class="logo"><img src = "img\logoslogo.png" id = "logoimg" style="width: 100%"></div>
+        <div class="logo"><img src = "img\logoslogo.png" class = "logoimg" style="width: 100%"></div>
         <div class="photo"></div>
         <div class="name">Input a Name</div>
         <div class="title">Staff</div>
@@ -75,6 +75,7 @@
     var bcurl = "http://services.asianhope.org/idcards/barcode.php";
     var bcnum_pre = "";
     var bcnum_post= "";
+    var bcsize = 30; //default size for barcodes.
 
     //allows downloading of webcam picture
     function downloadURI(uri, name) {
@@ -108,26 +109,60 @@
 
     $('#library').click(function (){
       $('link').attr('href','css/librarycard.css');
+      bcsize = 30;
       $('.footerimg').attr('src','img\\logoslibraryfooter.png');
+    //  $('.card').css('background-color','#fbb033');
+    });
+    $('#library_bc').click(function (){
+      bcnum_pre = "";
+      bcnum_post= "";
+      bcsize = 60;
+      //reload barcode
+      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
+      $('link').attr('href','css/librarybc.css');
+
+      $('.footerimg').attr('src','img\\logoslibraryfooter.png');
+      $('.logoimg').attr('src','img\\logoslibrarylogo.png');
+
     //  $('.card').css('background-color','#fbb033');
     });
 
     $('#pickup').click(function (){
+
       $('link').attr('href','css/pickupcard.css');
+      bcsize = 30;
       $('.footerimg').attr('src','img\\logospickupfooter.png');
+
+
       //$('.card').css('background-color','#a02c2c');
+    });
+    $('#pickup_bc').click(function (){
+      bcnum_pre = "";
+      bcnum_post= "";
+      bcsize = 60;
+      //reload barcode
+      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
+      $('link').attr('href','css/pickupbc.css');
+      $('.footerimg').attr('src','img\\logospickupfooter.png');
+      $('.logoimg').attr('src','img\\logospickuplogo.png');
+    //  $('.card').css('background-color','#fbb033');
     });
 
     $('#staff').click(function (){
       bcnum_pre = "";
       bcnum_post= "";
+      bcsize = 30;
+      //reload barcode
+      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
       $('link').attr('href','css/staffcard.css');
       $('.footerimg').attr('src','img\\logosfooter.png');
+      $('.logoimg').attr('src','img\\logoslogo.png');
     });
 
     $('#student').click(function (){
       bcnum_pre = "Student ID: <strong>";
       bcnum_post= "</strong>";
+      bcsize = 30;
       $('link').attr('href','css/studentcard.css');
     });
 
@@ -153,7 +188,7 @@
     $('#inputbarcodenumber').on("change", function(){
         //$('#barcodeimg').attr('src',bcurl+'?'+$('#barcodenumber').val()+'&size=30');
         $('.barcodenumber').html(bcnum_pre+$('#inputbarcodenumber').val()+bcnum_post);
-        $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size=30"/>');
+        $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
 
 
     });
