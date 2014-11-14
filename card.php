@@ -10,6 +10,7 @@
 			$this->dob = $dob;
 			$this->econtact1 = $econtact1;
 			$this->econtact2 = $econtact2;
+                        $this->syear = 2013;
 
 		}
 		function getID(){
@@ -45,35 +46,40 @@
 		}
 
 		function toRawHTML(){
-			if(file_exists("StudentPhotos/$this->sid.JPG")) $photo="StudentPhotos/$this->sid.JPG";
-			else $photo = "StudentPhotos/nophoto.JPG";
+                        if(file_exists("StudentPhotos/$this->sid.JPG"))
+                        $photo="StudentPhotos/$this->sid.JPG";
+			else if(file_exists("StudentPhotos/$this->syear/$this->sid.JPG"))
+                        $photo="StudentPhotos/$this->syear/$this->sid.JPG";
+			else if(file_exists("StudentPhotos/$this->syear-1/$this->sid.JPG"))
+                        $photo="StudentPhotos/$this->syear-1/$this->sid.JPG";
+			else if(file_exists("StudentPhotos/$syear-2/$this->sid.JPG"))
+                        $photo="StudentPhotos/$syear-2/$this->sid.JPG";
+			else if(file_exists("StudentPhotos/$syear-3/$this->sid.JPG"))
+                        $photo="StudentPhotos/$syear-3/$this->sid.JPG";
+
+			else $photo = "img/nophoto.jpg";
 
 
 			return("
 
-					<div class = \"card\">
-					    <div class = \"watermark\"><img class=\"watermarkimg\" src = \"img/ahback.png\"></div>
-						<div class = \"studentpic\"><img class = \"studentimg\" src = \"$photo\"><div class =\"expires\">valid until: ".date("M Y",strtotime("+1 year"))."</div></div>
-						<div class = \"schoolname\">Logos International School</div>
-						<div class =\"tagline\">a ministry of Asian Hope</div>
-						<div class = \"studentname\">$this->lastname, $this->firstname</div>
-						<div class = \"sid\">Student ID: $this->sid</div>
-						<div class = \"biographic\">
-						<table>
-							<tr><td>DOB</td><td align = \"right\">$this->dob</td></tr>
-							<tr><td>Emergency Contacts<br/>
-									ទំនាក់ទំនងលេខ</td>
-								<td align =\right\"> $this->econtact1<br/>
-									 $this->econtact2</td>
-							</tr>
-						</table>
-						</div>
-						<div class = \"barcode\">
-						<img src = \"barcode.php?text=$this->sid&size=40\" alt=\"blah\">
-						</div>
-
-
+					<div class=\"card\">
+							<div class=\"logo\"><img src = \"img\logoslogo.png\" class = \"logoimg\" style=\"width: 100%\"></div>
+							<div class=\"photo\" style=\"background-image:url('$photo');\"></div>
+							<div class=\"name\">$this->lastname, $this->firstname</div>
+							<div class=\"title\">Student</div>
+							<div class=\"barcode\"><img src = \"barcode.php?text=$this->sid&size=30\" id = \"barcodeimg\" alt=\"blah\"></div>
+							<div class=\"barcodenumber\">Student ID: <strong>$this->sid</strong></div>
+							<div class=\"cardbody\">
+								<ul>
+									<li id=\"dob\">DOB: $this->dob</li>
+									<li>Emergency Contact:</li>
+									<li id=\"econtact1\">$this->econtact1</li>
+									<li id=\"econtact2\"> $this->econtact2</li>
+								</ul>
+							</div>
+							<div class=\"footer\"><img class=\"footerimg\" src = \"img\logoslibraryfooter.png\" style=\"width: 100%\"/> </div>
 					</div>
+
 					");
 
 		}
@@ -81,4 +87,3 @@
 	}
 
 ?>
-

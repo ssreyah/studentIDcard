@@ -1,5 +1,5 @@
 
-@page { size:86mm 54mm;}
+
 @media screen{
 #container{
     position: absolute;
@@ -36,10 +36,7 @@
 
 
 }
-.logo{
-    position: relative;
-    padding-bottom: 5px;
-}
+
 
 .name{
     color: white;
@@ -98,6 +95,7 @@ li{
 }
 }
 @media print{
+@page {size:86mm 54mm; margin: 0cm;}
 #controls{
     display:none;
 }
@@ -111,11 +109,12 @@ li{
 }
 .card{
     width: 100%;
-    height: 54mm;
+    height: 53mm;
     position: relative;
     font-family: "Futura Medium" sans-serif;
     text-align: center;
     page-break-after: always;
+    page-break-inside: avoid;
     background-image:url('../img/logosstudentwatermark.png');
     background-size: 103%;
     background-repeat: no-repeat;
@@ -135,10 +134,7 @@ li{
 
 
 }
-.logo{
-    position: relative;
-    padding-bottom: 5px;
-}
+
 
 .name{
     color: white;

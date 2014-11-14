@@ -1,97 +1,19 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<style style="text/css">
-<!--
-@page { size:86mm 54mm; margin: 0cm }
-table{
-
-	padding: 0cm;
-	#border:solid black 1px;
-	border-collapse: collapse;
-
-}
-
-tr,td{
-	font-size: 8pt;
-	#border:solid black 1px;
-	padding-right: 3mm;
-}
-
-.schoolname{
-	font-family: serif;
-	font-size: 12pt;
-	font-weight: bold;
-
-}
-
-.tagline{
-	font-family: serif;
-	font-size: 6pt;
-	margin-bottom: 2mm;
-
-}
-.studentname{
-
-	font-size: 14pt;
-	font-weight: bold;
-}
-.sid{
-	font-size: 10pt;
-	margin-bottom: 5mm;
-}
-.expires{
-	color: darkred;
-	font-size: 6pt;
-	margin: 1mm;
-	text-align: center;
-}
-.card{
-	font-family: sans;
-	width: 86mm;
-	height: 54mm;
-
-}
-.studentpic{
-	float:right;
-	position: relative;
-	top: -2mm;
-}
-.barcode{
-
-}
-.bcimg{
-	width: 40mm;
-	position: relative;
-	top: -17mm;
-}
-.biographic{
-	margin-bottom: 5mm;
-}
-
-.watermark{
-	z-index:-1;
-	position: absolute;
-}
-.watermarkimg{
-	height: 54mm;
-}
-.studentimg{
-	width: 2.5cm;
-}
--->
-</style>
+<link rel="stylesheet" type="text/css" href="css/studentcard.css">
 </head>
 <body>
+<div id="container" style="display:block;">
 <?php
 include "connectdb.php";
 include "card.php";
 $syear = 2014;
 $school_id = 1;
-$grade = "Grade 6";
+$grade = $_GET['grade'];
 $dbh = connectDB();
 $query = $dbh->prepare("
-SELECT 
+SELECT
 enrolled_students.sid,
 enrolled_students.dob,
 enrolled_students.fname,
@@ -101,10 +23,10 @@ student_addresses.e1,
 student_addresses.e2,
 Grade.title
 
-FROM    
-        
+FROM
+
 (SELECT students.first_name as fname, students.last_name as sname, students.common_name as cname, students.student_id as sid, students.birthdate as dob, student_enrollment.grade_id as grade_id from students, student_enrollment
-WHERE   
+WHERE
 student_enrollment.student_id = students.student_id AND student_enrollment.syear = $syear AND student_enrollment.school_id=$school_id and end_date IS NULL)
 as enrolled_students,
 
@@ -151,12 +73,13 @@ foreach($students as $student){
 
 foreach($cardarray as $testcard){
 
+
 	print($testcard->toRawHTML());
 	/*print("
 		<img style =\"width: 86mm\" src = \"img/cardback.png\">
         ");*/
 }
 ?>
+</div>
 </body>
 </html>
-
