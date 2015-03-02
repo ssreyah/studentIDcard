@@ -5,7 +5,7 @@
 
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/photobooth_min.js"></script>
-
+<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" type="text/css" href="css/librarycard.css">
 
 </head>
@@ -64,6 +64,7 @@
 <button id="pickup_bc" class="btn btn-primary">LIS Pick Up (Barcode)</button><br/>
 <button id="staff" class="btn btn-primary">LIS Staff</button><br/>
 <button id="student" class="btn btn-primary">LIS Student</button>
+<button id="ah-staff" class="btn btn-primary">AH Staff</button>
 </div>
 </div>
 
@@ -166,6 +167,27 @@
       $('link').attr('href','css/studentcard.css');
     });
 
+    $('#ah-staff').click(function (){
+      bcnum_pre = "";
+      bcnum_post= "";
+      bcsize = 30;
+      //reload barcode
+      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
+      $('link').attr('href','css/ahstaffcard.css');
+      $('.footerimg').attr('src','img\\ahfooter.png');
+      $('.logoimg').attr('src','img\\ahlogo.png');
+    });
+
+    $('#vdp-staff').click(function (){
+      bcnum_pre = "";
+      bcnum_post= "";
+      bcsize = 30;
+      //reload barcode
+      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
+      $('link').attr('href','css/vdpstaffcard.css');
+      $('.footerimg').attr('src','img\\vdpfooter.png');
+      $('.logoimg').attr('src','img\\vdplogo.png');
+    });
 
     $('#inputname').on("change", function(){
         $('.name').html($('#inputname').val());
