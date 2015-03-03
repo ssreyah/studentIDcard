@@ -65,6 +65,7 @@
 <button id="staff" class="btn btn-primary">LIS Staff</button><br/>
 <button id="student" class="btn btn-primary">LIS Student</button>
 <button id="ah-staff" class="btn btn-primary">AH Staff</button>
+<button id="vdp-staff" class="btn btn-primary">VDP Staff</button>
 </div>
 </div>
 
@@ -77,6 +78,7 @@
     var bcnum_pre = "";
     var bcnum_post= "";
     var bcsize = 30; //default size for barcodes.
+    var departmnettag = "";
 
     //allows downloading of webcam picture
     function downloadURI(uri, name) {
@@ -111,6 +113,7 @@
     $('#library').click(function (){
       $('link').attr('href','css/librarycard.css');
       bcsize = 30;
+      departmenttag = "";
       $('.footerimg').attr('src','img\\logoslibraryfooter.png');
     //  $('.card').css('background-color','#fbb033');
     });
@@ -132,6 +135,7 @@
 
       $('link').attr('href','css/pickupcard.css');
       bcsize = 30;
+      departmenttag = "";
       $('.footerimg').attr('src','img\\logospickupfooter.png');
 
 
@@ -153,6 +157,7 @@
       bcnum_pre = "";
       bcnum_post= "";
       bcsize = 30;
+      departmenttag ="";
       //reload barcode
       $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
       $('link').attr('href','css/staffcard.css');
@@ -164,6 +169,7 @@
       bcnum_pre = "Student ID: <strong>";
       bcnum_post= "</strong>";
       bcsize = 30;
+      departmenttag ="";
       $('link').attr('href','css/studentcard.css');
     });
 
@@ -171,6 +177,7 @@
       bcnum_pre = "";
       bcnum_post= "";
       bcsize = 30;
+      departmenttag ="";
       //reload barcode
       $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
       $('link').attr('href','css/ahstaffcard.css');
@@ -182,18 +189,21 @@
       bcnum_pre = "";
       bcnum_post= "";
       bcsize = 30;
+      departmenttag = "Village Development Program<br/>"
       //reload barcode
       $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
       $('link').attr('href','css/vdpstaffcard.css');
       $('.footerimg').attr('src','img\\vdpfooter.png');
       $('.logoimg').attr('src','img\\vdplogo.png');
+
+
     });
 
     $('#inputname').on("change", function(){
         $('.name').html($('#inputname').val());
     });
     $('#inputtitle').on("change", function(){
-        $('.title').html($('#inputtitle').val());
+        $('.title').html(departmenttag+$('#inputtitle').val());
     });
     $('#inputecontact1').on("change", function(){
         $('#econtact1').html($('#inputecontact1').val());
