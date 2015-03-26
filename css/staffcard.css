@@ -57,6 +57,8 @@ font-size:small;
     font-size:x-small;
 }
 .footer{
+    position: absolute;
+    bottom: 0
 }
 .barcodenumber{
   font-size:x-small;
@@ -128,6 +130,8 @@ font-size:small;
     font-size:x-small;
 }
 .footer{
+    position: absolute;
+    bottom: 0;
 }
 .barcodenumber{
   font-size:x-small;
