@@ -5,6 +5,7 @@
 
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/photobooth_min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" type="text/css" href="css/librarycard.css">
 
@@ -67,6 +68,7 @@
 <button id="ah-staff" class="btn btn-primary">AH Staff</button>
 <button id="vdp-staff" class="btn btn-primary">VDP Staff</button>
 </div>
+<div id="photoControl" class="ui-widget-content" style="background-color:red; width:200px; height:200px"><div id="x-position"></div><div id="y-position"></div></div>
 </div>
 
 
@@ -79,7 +81,13 @@
     var bcnum_post= "";
     var bcsize = 30; //default size for barcodes.
     var departmnettag = "";
-
+    $('#photoControl').draggable({
+        drag: function(){
+           var position = $(this).position()
+           $('.photo').css('background-position',position.left+'px '+position.top+'px'); 
+           console.log($(this).position());
+        }
+    });
     //allows downloading of webcam picture
     function downloadURI(uri, name) {
         var link = document.createElement("a");
