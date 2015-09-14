@@ -64,6 +64,7 @@
 <button id="pickup" class="btn btn-primary">LIS Pick Up (Picture)</button>
 <button id="pickup_bc" class="btn btn-primary">LIS Pick Up (Barcode)</button><br/>
 <button id="staff" class="btn btn-primary">LIS Staff</button><br/>
+<button id="ahis-staff" class="btn btn-primary">AHIS Staff</button><br/>
 <button id="student" class="btn btn-primary">LIS Student</button>
 <button id="ah-staff" class="btn btn-primary">AH Staff</button>
 <button id="vdp-staff" class="btn btn-primary">VDP Staff</button>
@@ -84,7 +85,7 @@
     $('#photoControl').draggable({
         drag: function(){
            var position = $(this).position()
-           $('.photo').css('background-position',position.left+'px '+position.top+'px'); 
+           $('.photo').css('background-position',position.left+'px '+position.top+'px');
            console.log($(this).position());
         }
     });
@@ -171,6 +172,18 @@
       $('link').attr('href','css/staffcard.css');
       $('.footerimg').attr('src','img\\logosfooter.png');
       $('.logoimg').attr('src','img\\logoslogo.png');
+    });
+
+    $('#ahis-staff').click(function (){
+      bcnum_pre = "";
+      bcnum_post= "";
+      bcsize = 30;
+      departmenttag ="";
+      //reload barcode
+      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
+      $('link').attr('href','css/ahisstaffcard.css');
+      $('.footerimg').attr('src','img\\ahisfooter.png');
+      $('.logoimg').attr('src','img\\ahislogo.png');
     });
 
     $('#student').click(function (){
