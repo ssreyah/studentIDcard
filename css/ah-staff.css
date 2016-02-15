@@ -12,29 +12,31 @@
     width: 100%;
     height: 86mm;
     position: relative;
+    background-color: #482648;
     font-family: "Futura Medium" sans-serif;
     text-align: center;
     page-break-after: always;
-    background-image:url('../img/vdpwatermark.png');
-    background-size: 80%;
-    background-repeat: no-repeat;
-    background-position: center;
     border:solid 3px lightgrey;
     margin: 5px;
 
 }
 .photo{
     text-align: center;
-    height: 4.0cm;
-    width: 3.3cm;
+    width: 3.7cm;
     position: relative;
-    left: 18%;
-    background-image:url('../img/nophoto.jpg');
-    background-size: cover;
-    background-position: center center;
-
-
+    left: 15%;
+    margin-bottom: 2mm;
 }
+.cover{
+  height: 3.7cm;
+  width: 3.7cm;
+  object-fit: cover;
+  border-radius:50%;
+
+  border: 3px solid #fad596;
+  object-fit: cover;
+}
+
 .logo{
     position: relative;
     padding-bottom: 5px;
@@ -42,10 +44,12 @@
 
 .name{
     font-weight: bold;
+    color:white;
 }
 .title{
-font-size:small;
-margin-bottom: 3mm;
+color:white;
+margin-bottom: 5px;
+font-size: small
 
 }
 .expires{
@@ -55,11 +59,13 @@ margin-bottom: 3mm;
     width: 90%;
     margin: auto;
     font-size:x-small;
+    height: 10mm;
 }
 .footer{
 }
 .barcodenumber{
   font-size:x-small;
+  color: white;
   padding-bottom: 3.5mm;
 }
 .cardbody{
@@ -88,24 +94,29 @@ margin-bottom: 3mm;
     font-family: "Futura Medium" sans-serif;
     text-align: center;
     page-break-after: always;
-    background-image:url('../img/vdpwatermark.png');
-    background-size: 80%;
-    background-repeat: no-repeat;
+    background-image:url('../img/ahwatermark.png');
+    background-size: 200%;
+    background-repeat: repeat;
     background-position: center;
 
 }
+
 .photo{
     text-align: center;
-    height: 4.0cm;
-    width: 3.3cm;
+    width: 3.7cm;
     position: relative;
-    left: 18%;
-    background-image:url('../img/nophoto.jpg');
-    background-size: cover;
-    background-position: center center;
-
-
+    left: 15%;
+    margin-bottom: 2mm;
 }
+.cover{
+  height: 3.7cm;
+  width: 3.7cm;
+  object-fit: cover;
+  border-radius:50%;
+  border: 3px solid #fad596;
+  object-fit: cover;
+}
+
 .logo{
     position: relative;
     padding-bottom: 5px;
@@ -113,10 +124,12 @@ margin-bottom: 3mm;
 
 .name{
     font-weight: bold;
+    color:white;
 }
 .title{
-font-size:small;
-
+color:white;
+margin-bottom: 2px;
+font-size: small;
 }
 .expires{
     font-size: small;
@@ -130,7 +143,9 @@ font-size:small;
 }
 .barcodenumber{
   font-size:x-small;
-  padding-bottom: 3.0mm;
+  padding-bottom: 1.0mm;
+  color: white;
+
 }
 .cardbody{
   display:none;

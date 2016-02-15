@@ -30,13 +30,12 @@
     position: relative;
     left: 54mm;
     top: 3mm;
-    background-size: cover;
-    background-position: center center;
-    background-image:url('../img/nophoto.jpg');
-
-
 }
-
+.cover{
+  height: 45mm;
+  width: 30mm;
+  object-fit: cover;
+}
 
 .name{
     color: white;
@@ -61,6 +60,7 @@ left: 21mm;
   position: absolute;
   top: 45mm;
   left: 0mm;
+  height: 7mm;
 }
 .barcodenumber{
   color:white;
@@ -128,13 +128,12 @@ li{
     position: relative;
     left: 54mm;
     top: 3mm;
-    background-size: cover;
-    background-position: center center;
-    background-image:url('../img/nophoto.jpg');
-
-
 }
-
+.cover{
+  height: 45mm;
+  width: 30mm;
+  object-fit: cover;
+}
 
 .name{
     color: white;

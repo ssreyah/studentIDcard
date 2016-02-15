@@ -6,18 +6,21 @@
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="js/photobooth_min.js"></script>
 <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="js/jquery.csv-0.71.min.js"></script>
+<script type="text/javascript" src="js/JsBarcode/CODE128.js"></script>
+<script type="text/javascript" src="js/JsBarcode/JsBarcode.js"></script>
 <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" type="text/css" href="css/librarycard.css">
+<link rel="stylesheet" type="text/css" href="css/librarypic.css">
 
 </head>
 <body>
 <div id="container" style="display:block;">
     <div class="card">
-        <div class="logo"><img src = "img\logoslogo.png" class = "logoimg" style="width: 100%"></div>
-        <div class="photo"></div>
+        <div class="logo"><img src = "img/logoslogo.png" class = "logoimg" style="width: 100%"></div>
+        <div class="photo"><img class="cover" src="../img/nophoto.jpg"/></div>
         <div class="name">Input a Name</div>
         <div class="title">Staff</div>
-        <div class="barcode"><img src = "http://services.asianhope.org/idcards/barcode.php?text=123&size=30" id = "barcodeimg" alt="blah"></div>
+        <div class="barcode"><img id = "barcodeimg"/></div>
         <div class="barcodenumber">123</div>
         <div class="cardbody">
           <ul>
@@ -27,7 +30,7 @@
             <li id="econtact2">024-XXX-XXXX</li>
           </ul>
         </div>
-        <div class="footer"><img class="footerimg" src = "img\logoslibraryfooter.png" style="width: 100%"/> </div>
+        <div class="footer"><img class="footerimg" src = "img/logoslibraryfooter.png" style="width: 100%"/> </div>
     </div>
 
 </div>
@@ -37,39 +40,43 @@
 
     <input id="uploadFile" size=40 name="image" type="file" class="form-control"><br/>
     <label for "inputname">Name</label>
-    <input type="text" id ="inputname" placeholder="Surname, First Name"/>
+    <input class="userinput" type="text" id ="inputname" placeholder="Surname, First Name"/>
     <br/>
     <label for "inputtitle">Title</label>
-    <input type="text" id ="inputtitle" placeholder="Staff"/>
+    <input class="userinput" type="text" id ="inputtitle" placeholder="Staff"/>
     <br/>
 
     <label for "inputdob">DOB:</label>
-    <input type="text" id ="inputdob" placeholder="DD-MM-YYYY"/>
+    <input class="userinput" type="text" id ="inputdob" placeholder="DD-MM-YYYY"/>
     <br/>
 
     <label for "inputecontact1">Emergency Contact 1</label>
-    <input type="text" id ="inputecontact1" placeholder="01X-XXX-XXX"/>
+    <input class="userinput" type="text" id ="inputecontact1" placeholder="01X-XXX-XXX"/>
     <br/>
 
     <label for "inputecontact2">Emergency Contact 2</label>
-    <input type="text" id ="inputecontact2" placeholder="02X-XXX-XXX"/>
+    <input class="userinput" type="text" id ="inputecontact2" placeholder="02X-XXX-XXX"/>
     <br/>
 
     <label for "barcodenumber">Barcode Number</label>
-    <input type ="text" id = "inputbarcodenumber" placeholder="123"/>
+    <input class="userinput" type ="text" id = "inputbarcodenumber" placeholder="123" value="123"/>
 <div id="buttons">
 
-<button id="library" class="btn btn-primary">LIS Library (Picture)</button>
-<button id="library_bc" class="btn btn-primary">LIS Library (Barcode)</button><br/>
-<button id="pickup" class="btn btn-primary">LIS Pick Up (Picture)</button>
-<button id="pickup_bc" class="btn btn-primary">LIS Pick Up (Barcode)</button><br/>
-<button id="staff" class="btn btn-primary">LIS Staff</button><br/>
-<button id="ahis-staff" class="btn btn-primary">AHIS Staff</button><br/>
-<button id="student" class="btn btn-primary">LIS Student</button>
-<button id="ah-staff" class="btn btn-primary">AH Staff</button>
-<button id="vdp-staff" class="btn btn-primary">VDP Staff</button>
+<button class="template_switch" id="librarypic" class="btn btn-primary">LIS Library (Picture)</button>
+<button class="template_switch" id="librarybc" class="btn btn-primary">LIS Library (Barcode)</button><br/>
+<button class="template_switch" id="pickup" class="btn btn-primary">LIS Pick Up (Picture)</button>
+<button class="template_switch" id="pickup_bc" class="btn btn-primary">LIS Pick Up (Barcode)</button><br/>
+<button class="template_switch" id="lis-staff" class="btn btn-primary">LIS Staff</button><br/>
+<button class="template_switch" id="ahis-staff" class="btn btn-primary">AHIS Staff</button><br/>
+<button class="template_switch" id="lis-student" class="btn btn-primary">LIS Student</button>
+<button class="template_switch" id="ah-staff" class="btn btn-primary">AH Staff</button>
+<!--  Doesn't work with js barcode generation -->
+<!--
+<h2>CSV Data</h2>
+<textarea id="csvdata" rows="4" cols="50">uid,employeenumber,sn,givenName</textarea>
+<button id="csvgenerate" class="btn btn-primary">Mass generate</button>
 </div>
-<div id="photoControl" class="ui-widget-content" style="background-color:red; width:200px; height:200px"><div id="x-position"></div><div id="y-position"></div></div>
+<div id="photoControl" class="ui-widget-content" style="background-color:red; width:200px; height:200px"><div id="x-position"></div><div id="y-position"></div></div> -->
 </div>
 
 
@@ -77,16 +84,33 @@
 
 </body>
 <script type='text/javascript'>
-    var bcurl = "http://services.asianhope.org/idcards/barcode.php";
+    $("#barcodeimg").JsBarcode($('#inputbarcodenumber').val(),{width:1,height:$('.barcode').height(),backgroundColor:'#FFFFFF'});
     var bcnum_pre = "";
     var bcnum_post= "";
-    var bcsize = 30; //default size for barcodes.
     var departmnettag = "";
+    var cardtemplate = `
+    <div class='card'>
+        <div class='logo'><img src = 'img/logoslogo.png' class = 'logoimg' style='width: 100%'></div>
+        <div class='photo'><img src="../img/nophoto.jpg"/></div>
+        <div class='name'>Input a Name</div>
+        <div class='title'>Staff</div>
+        <div class='barcode'></div>
+        <div class='barcodenumber'>123</div>
+        <div class='cardbody'>
+          <ul>
+            <li id='dob'>DOB: 15-08-1981</li>
+            <li>Emergency Contact:</li>
+            <li id='econtact1'>017-XXX-XXXX</li>
+            <li id='econtact2'>024-XXX-XXXX</li>
+          </ul>
+        </div>
+        <div class='footer'><img class='footerimg' src = 'img/logoslibraryfooter.png' style='width: 100%'/> </div>
+    </div>
+    `;
     $('#photoControl').draggable({
         drag: function(){
            var position = $(this).position()
-           $('.photo').css('background-position',position.left+'px '+position.top+'px');
-           console.log($(this).position());
+           $('.cover').css('object-position',position.left+'px '+position.top+'px');
         }
     });
     //allows downloading of webcam picture
@@ -100,9 +124,9 @@
     $(function() {
 
     $('#webcam').photobooth().on("image",function(event, dataUrl){
-        $('.photo').css('background-image','url('+dataUrl+')');
+        $('.cover').attr('src',dataUrl);
         var filename = $('#inputname').val()+'.png';
-        downloadURI(dataUrl, filename);
+        //downloadURI(dataUrl, filename);
     });
     $("#uploadFile").on("change", function()
         {
@@ -114,111 +138,57 @@
                     reader.readAsDataURL(files[0]); // read the local file
 
                     reader.onloadend = function(){ // set image data as background of div
-                        $(".photo").css("background-image", "url("+this.result+")");
+                        $(".cover").attr("src", this.result);
                     }
                 }
     });
 
-    $('#library').click(function (){
-      $('link').attr('href','css/librarycard.css');
-      bcsize = 30;
-      departmenttag = "";
-      $('.footerimg').attr('src','img\\logoslibraryfooter.png');
-    //  $('.card').css('background-color','#fbb033');
-    });
-    $('#library_bc').click(function (){
-      bcnum_pre = "";
-      bcnum_post= "";
-      bcsize = 60;
-      //reload barcode
-      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
-      $('link').attr('href','css/librarybc.css');
+    var switchTemplate = function(templatename){
 
-      $('.footerimg').attr('src','img\\logoslibraryfooter.png');
-      $('.logoimg').attr('src','img\\logoslibrarylogo.png');
+        //css should have just one file: <templatename>.css
+        var css_path = 'css/';
+        //link in the css
+        $('link').attr('href',css_path+templatename+".css");
 
-    //  $('.card').css('background-color','#fbb033');
-    });
+        /*
+           img should have a number of files:
+           - <template>-logo.png
+           - <template>-footer.png
+           - <template>-watermark.png <- this is set in the .css
+        */
+        var img_path = 'img/';
+        $('.footerimg').attr('src',img_path+templatename+'-footer.png');
+        $('.logoimg').attr('src',img_path+templatename+'-logo.png');
+    };
 
-    $('#pickup').click(function (){
-
-      $('link').attr('href','css/pickupcard.css');
-      bcsize = 30;
-      departmenttag = "";
-      $('.footerimg').attr('src','img\\logospickupfooter.png');
-
-
-      //$('.card').css('background-color','#a02c2c');
-    });
-    $('#pickup_bc').click(function (){
-      bcnum_pre = "";
-      bcnum_post= "";
-      bcsize = 60;
-      //reload barcode
-      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
-      $('link').attr('href','css/pickupbc.css');
-      $('.footerimg').attr('src','img\\logospickupfooter.png');
-      $('.logoimg').attr('src','img\\logospickuplogo.png');
-    //  $('.card').css('background-color','#fbb033');
+    $('.template_switch').click(function(){
+      // id of element should be related to the name of the .css and images to be loaded
+      var templatename = $(this).attr('id');
+      switchTemplate(templatename);
+      //reset barcode
+      $('.barcode').html('<img id="barcodeimg" />');
+      $("#barcodeimg").JsBarcode($('#inputbarcodenumber').val(),{width:1,height:$('.barcode').height(),backgroundColor:'#FFFFFF'});
     });
 
-    $('#staff').click(function (){
-      bcnum_pre = "";
-      bcnum_post= "";
-      bcsize = 30;
-      departmenttag ="";
-      //reload barcode
-      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
-      $('link').attr('href','css/staffcard.css');
-      $('.footerimg').attr('src','img\\logosfooter.png');
-      $('.logoimg').attr('src','img\\logoslogo.png');
-    });
-
-    $('#ahis-staff').click(function (){
-      bcnum_pre = "";
-      bcnum_post= "";
-      bcsize = 30;
-      departmenttag ="";
-      //reload barcode
-      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
-      $('link').attr('href','css/ahisstaffcard.css');
-      $('.footerimg').attr('src','img\\ahisfooter.png');
-      $('.logoimg').attr('src','img\\ahislogo.png');
-    });
-
-    $('#student').click(function (){
-      bcnum_pre = "Student ID: <strong>";
-      bcnum_post= "</strong>";
-      bcsize = 30;
-      departmenttag ="";
-      $('link').attr('href','css/studentcard.css');
-    });
-
-    $('#ah-staff').click(function (){
-      bcnum_pre = "";
-      bcnum_post= "";
-      bcsize = 30;
-      departmenttag ="";
-      //reload barcode
-      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
-      $('link').attr('href','css/ahstaffcard.css');
-      $('.footerimg').attr('src','img\\ahfooter.png');
-      $('.logoimg').attr('src','img\\ahlogo.png');
-    });
-
-    $('#vdp-staff').click(function (){
-      bcnum_pre = "";
-      bcnum_post= "";
-      bcsize = 30;
-      departmenttag = "Village Development Program<br/>"
-      //reload barcode
-      $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
-      $('link').attr('href','css/vdpstaffcard.css');
-      $('.footerimg').attr('src','img\\vdpfooter.png');
-      $('.logoimg').attr('src','img\\vdplogo.png');
-
-
-    });
+    //Doesn't work with current way of generating barcodes
+    // $('#csvgenerate').click(function(){
+    //    var cards = $.csv.toArrays($('#csvdata').val());
+    //    for(var i=0; i<cards.length; i++){
+    //           var uid = cards[i][0];
+    //           var employeenumber= cards[i][1];
+    //           var sn = cards[i][2];
+    //           var givenName= cards[i][3];
+    //           var $card = $($.parseHTML(cardtemplate));
+    //           $card.find(".name").text(sn+', '+givenName);
+    //           $card.find('.barcodenumber').html(bcnum_pre+employeenumber+bcnum_post);
+    //           $card.find('.barcode').html('<img src="'+bcurl+'?text='+employeenumber+'&size='+bcsize+'"/>');
+    //           $card.find(".photo").css("background-image", "url('http://192.168.0.19/files/"+employeenumber+"/"+employeenumber+"-"+uid+"-Photo.jpg"+"')");
+    //           $('#container').append($card);
+    //           console.log($card.find(".name").text());
+    //
+    //
+    //    }
+    // });
 
     $('#inputname').on("change", function(){
         $('.name').html($('#inputname').val());
@@ -239,9 +209,10 @@
     });
 
     $('#inputbarcodenumber').on("change", function(){
-        //$('#barcodeimg').attr('src',bcurl+'?'+$('#barcodenumber').val()+'&size=30');
-        $('.barcodenumber').html(bcnum_pre+$('#inputbarcodenumber').val()+bcnum_post);
-        $('.barcode').html('<img src="'+bcurl+'?text='+$('#inputbarcodenumber').val()+'&size='+bcsize+'"/>');
+        //reset barcode
+        $('.barcodenumber').html($('#inputbarcodenumber').val());
+        $('.barcode').html('<img id="barcodeimg" />');
+        $("#barcodeimg").JsBarcode($('#inputbarcodenumber').val(),{width:1,height:$('.barcode').height(),backgroundColor:'#FFFFFF'});
 
 
     });
