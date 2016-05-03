@@ -1,4 +1,4 @@
-@page { size:54mm 86mm;}
+@page { size:54mm 85mm;}
 @media screen{
 #container{
     position: absolute;
@@ -10,7 +10,7 @@
 }
 .card{
     width: 100%;
-    height: 86mm;
+    height: 85mm;
     position: relative;
     background-color: #482648;
     font-family: "Futura Medium" sans-serif;
@@ -119,7 +119,7 @@ font-size: small
 
 .logo{
     position: relative;
-    padding-bottom: 5px;
+    padding-bottom: 0px;
 }
 
 .name{
